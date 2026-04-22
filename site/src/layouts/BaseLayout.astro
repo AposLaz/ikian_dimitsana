@@ -1,0 +1,120 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'IKIAN Dimitsana — Boutique suites in the heart of Dimitsana, Arcadia, Greece. A distinctive stay with Arcadian elegance and mountain village charm.',
+  canonicalUrl,
+  ogImage = '/images/logos/logo-full.png',
+} = Astro.props;
+
+const siteUrl = Astro.site?.href?.replace(/\/$/, '') || 'https://ikian-dimitsana.gr';
+const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+// i18n
+const locale = Astro.currentLocale ?? 'en';
+const isEl = locale === 'el';
+const pathname = Astro.url.pathname;
+const cleanPath = isEl ? (pathname.replace(/^\/el/, '') || '/') : pathname;
+const elHref = cleanPath === '/' ? `${siteUrl}/el/` : `${siteUrl}/el${cleanPath}`;
+const enHref = `${siteUrl}${cleanPath}`;
+---
+
+<!doctype html>
+<html lang={isEl ? 'el' : 'en'}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- Primary Meta Tags -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="en" href={enHref} />
+  <link rel="alternate" hreflang="el" href={elHref} />
+  <link rel="alternate" hreflang="x-default" href={enHref} />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta property="og:locale" content={isEl ? 'el_GR' : 'en_US'} />
+  <meta property="og:site_name" content="IKIAN Dimitsana" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageUrl} />
+
+  <!-- Geo / Local SEO -->
+  <meta name="geo.region" content="GR-00" />
+  <meta name="geo.placename" content="Dimitsana, Arcadia" />
+  <meta name="geo.position" content="37.595581;22.039512" />
+  <meta name="ICBM" content="37.595581, 22.039512" />
+
+  <!--
+    PRIVACY-BY-DESIGN NOTICE
+    ========================
+    This website does NOT set any cookies.
+    No third-party scripts, trackers, or analytics are loaded.
+    All fonts are system fonts — no external font requests.
+    All images and assets are self-hosted.
+    No cookie consent banner is required.
+
+    Data processing:
+    - Contact via phone/email: user-initiated, legitimate interest / contract pre-performance.
+    - Airbnb booking links: external redirect, governed by Airbnb's own privacy policy.
+    - No server-side data collection beyond standard web server access logs (if any).
+
+    If future features require cookies or tracking, a CMP must be integrated.
+  -->
+
+  <slot name="head" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <Header />
+  <main id="main-content">
+    <slot />
+  </main>
+  <Footer />
+
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-md);
+      background: var(--color-gold);
+      color: var(--color-white);
+      padding: var(--space-sm) var(--space-md);
+      z-index: 1000;
+      border-radius: 0 0 4px 4px;
+      font-size: 0.875rem;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
+</body>
+</html>

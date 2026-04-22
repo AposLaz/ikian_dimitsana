@@ -1,0 +1,196 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact — IKIAN Dimitsana"
+  description="Get in touch with IKIAN Dimitsana. Call us directly for a 10% discount on your boutique suite stay in Dimitsana, Arcadia, Greece."
+>
+  <section class="page-hero">
+    <div class="container text-center">
+      <h1>Contact Us</h1>
+      <div class="divider"></div>
+      <p class="page-subtitle">We would love to hear from you</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-card">
+            <h2>Get in Touch</h2>
+            <p class="contact-intro">
+              Whether you have a question about our suites or would like to book directly,
+              we are here to help. Call us directly and enjoy an exclusive 10% discount
+              on your stay.
+            </p>
+
+            <div class="contact-details">
+              <div class="contact-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <div>
+                  <h3>Phone</h3>
+                  <a href="tel:+306973373560">+30 697 337 3560</a>
+                  <p class="text-small text-light">Call us directly &amp; save 10%</p>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <div>
+                  <h3>Email</h3>
+                  <a href="mailto:ikian.dimitsana@gmail.com">ikian.dimitsana@gmail.com</a>
+                  <p class="text-small text-light">We typically respond within 24 hours</p>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <div>
+                  <h3>Location</h3>
+                  <p>Dimitsana, Arcadia</p>
+                  <p class="text-small text-light">Peloponnese, Greece</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Privacy notice (GDPR compliance) -->
+          <div class="privacy-notice">
+            <p>
+              <strong>Privacy notice:</strong> When you contact us by phone or email,
+              we process your contact details solely to respond to your enquiry. Your data
+              is not shared with third parties and is retained only as long as necessary.
+              For more information, see our <a href="/privacy/">Privacy Policy</a>.
+            </p>
+          </div>
+        </div>
+
+        <div class="contact-map">
+          <div class="map-embed">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1600!2d22.039653!3d37.595521!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDM1JzQzLjkiTiAyMsKwMDInMjIuOCJF!5e0!3m2!1sel!2sgr!4v1"
+              width="100%"
+              height="450"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="IKIAN Dimitsana location on Google Maps"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: var(--color-beige-light);
+    padding: var(--space-3xl) 0 var(--space-2xl);
+  }
+
+  .page-hero h1 {
+    letter-spacing: 0.05em;
+  }
+
+  .page-subtitle {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+    font-family: var(--font-heading);
+    font-style: italic;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+
+  .contact-card {
+    background: var(--color-white);
+  }
+
+  .contact-card h2 {
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-intro {
+    color: var(--color-text-light);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-xl);
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .contact-item {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: flex-start;
+  }
+
+  .contact-item svg {
+    flex-shrink: 0;
+    color: var(--color-gold);
+    margin-top: 4px;
+  }
+
+  .contact-item h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+    margin-bottom: var(--space-xs);
+    font-family: var(--font-body);
+    font-weight: 600;
+  }
+
+  .contact-item a {
+    font-size: 1.1rem;
+    font-weight: 500;
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+
+  .privacy-notice {
+    margin-top: var(--space-xl);
+    padding: var(--space-lg);
+    background: var(--color-beige-light);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  .privacy-notice a {
+    text-decoration: underline;
+  }
+
+  .map-embed {
+    border-radius: 4px;
+    overflow: hidden;
+    min-height: 450px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .map-embed iframe {
+    display: block;
+    width: 100%;
+    height: 450px;
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+  }
+</style>

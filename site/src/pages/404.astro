@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page Not Found — IKIAN Dimitsana" description="The page you are looking for could not be found.">
+  <section class="error-page">
+    <div class="container text-center">
+      <h1>404</h1>
+      <p class="error-message">The page you are looking for could not be found.</p>
+      <a href="/" class="btn btn-primary">Return Home</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .error-page {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .error-page h1 {
+    font-size: 6rem;
+    color: var(--color-gold);
+    letter-spacing: 0.1em;
+    line-height: 1;
+    margin-bottom: var(--space-md);
+  }
+
+  .error-message {
+    font-size: 1.2rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--space-xl);
+  }
+</style>

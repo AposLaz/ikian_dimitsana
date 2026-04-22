@@ -1,0 +1,418 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SuiteCard from '../../components/SuiteCard.astro';
+import { suiteData } from '../../i18n/translations';
+import { Image } from 'astro:assets';
+
+const suites = [
+  {
+    name: suiteData.el[0].name,
+    description: suiteData.el[0].description,
+    ama: '00003342582',
+    bookingLink: 'https://www.airbnb.gr/rooms/1491162600380899878',
+    images: [
+      { src: '/images/suites/suite-1/ikian-dimitsana-signature-suite-1.jpg', alt: 'Χώρος διαβίωσης Signature Suite με κομψή διακόσμηση' },
+      { src: '/images/suites/suite-1/ikian-dimitsana-balcony-central-view.jpg', alt: 'Κεντρική θέα μπαλκονιού στη Δημητσάνα' },
+      { src: '/images/suites/suite-1/ikian-dimitsana-queen-size-bed-1.jpg', alt: 'Διπλό κρεβάτι στο Signature Suite' },
+      { src: '/images/suites/suite-1/ikian-dimitsana-elegant-bathroom-1.jpg', alt: 'Κομψό μπάνιο με σύγχρονα είδη υγιεινής' },
+      { src: '/images/suites/suite-1/ikian-dimitsana-fully-equipped-kitchen-1.jpg', alt: 'Πλήρως εξοπλισμένη κουζίνα' },
+    ],
+  },
+  {
+    name: suiteData.el[1].name,
+    description: suiteData.el[1].description,
+    ama: '00003342600',
+    bookingLink: 'https://www.airbnb.com/h/ikian-dimitsana-2',
+    images: [
+      { src: '/images/suites/suite-2/ikian-dimitsana-luxury-serenity-suite-1.jpg', alt: 'Εσωτερικό Luxury Serenity Suite' },
+      { src: '/images/suites/suite-2/ikian-dimitsana-queen-size-bed.jpg', alt: 'Διπλό κρεβάτι με πολυτελή κλινοσκεπάσματα' },
+      { src: '/images/suites/suite-2/ikian-dimitsana-luxury-bathroom-1.jpg', alt: 'Πολυτελές μπάνιο στο Serenity Suite' },
+      { src: '/images/suites/suite-2/ikian-dimitsana-fully-equipped-kitchen.jpg', alt: 'Κουζίνα στο Serenity Suite' },
+      { src: '/images/suites/suite-2/ikian-dimitsana-entrance.jpg', alt: 'Είσοδος καταλύματος' },
+    ],
+  },
+  {
+    name: suiteData.el[2].name,
+    description: suiteData.el[2].description,
+    ama: '00003342577',
+    bookingLink: 'https://www.airbnb.com/h/ikian-dimitsana-3',
+    images: [
+      { src: '/images/suites/suite-3/ikian-dimitsana-charming-arcadian-suite-1.jpg', alt: 'Χώρος διαβίωσης Αρκαδικού Suite' },
+      { src: '/images/suites/suite-3/ikian-dimitsana-queen_size_bed-1.jpg', alt: 'Διπλό κρεβάτι με τοίχο από πέτρα' },
+      { src: '/images/suites/suite-3/ikian-dimitsana-spacious-bathroom-1.jpg', alt: 'Ευρύχωρο και σύγχρονο μπάνιο' },
+      { src: '/images/suites/suite-3/ikian-dimitsana-fully-equipped-kitchen.jpg', alt: 'Κουζίνα με σκεύη και βασικά είδη' },
+      { src: '/images/suites/suite-3/ikian-dimitsana-art-photography.jpg', alt: 'Καλλιτεχνική φωτογραφία στο suite' },
+    ],
+  },
+  {
+    name: suiteData.el[3].name,
+    description: suiteData.el[3].description,
+    ama: '00003342615',
+    bookingLink: 'https://www.airbnb.com/h/ikian-dimitsana-4',
+    images: [
+      { src: '/images/suites/suite-4/ikian-dimitsana-center-escape-1.jpg', alt: 'Εσωτερικό Κεντρικού Καταφυγίου Δημητσάνας' },
+      { src: '/images/suites/suite-4/ikian-dimitsana-queen-size-bed.jpg', alt: 'Διπλό κρεβάτι στο Κεντρικό Καταφύγιο' },
+      { src: '/images/suites/suite-4/ikian-dimitsana-spacious-bathroom-1.jpg', alt: 'Σύγχρονο μπάνιο με walk-in ντουζιέρα' },
+      { src: '/images/suites/suite-4/ikian-dimitsana-fully-equipped-kitchen.jpg', alt: 'Πλήρως εξοπλισμένη κουζίνα' },
+      { src: '/images/suites/suite-4/ikian-dimitsana-exterior-view-1.jpg', alt: 'Εξωτερική άποψη του καταλύματος' },
+    ],
+  },
+];
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "name": "IKIAN Dimitsana",
+  "description": "Boutique suites in the heart of Dimitsana, Arcadia, Greece. Premium accommodation with Arcadian elegance and mountain village charm.",
+  "url": "https://ikian-dimitsana.gr",
+  "telephone": "+306973373560",
+  "email": "ikian.dimitsana@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Dimitsana",
+    "addressRegion": "Arcadia",
+    "addressCountry": "GR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 37.595581,
+    "longitude": 22.039512
+  },
+  "image": "https://ikian-dimitsana.gr/images/suites/suite-1/ikian-dimitsana-signature-suite-1.jpg",
+  "priceRange": "$$",
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "Free Wi-Fi", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Self Check-in", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Kitchen", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Espresso Machine", "value": true }
+  ]
+};
+---
+
+<BaseLayout
+  title="IKIAN Dimitsana — Boutique Suites στη Δημητσάνα, Αρκαδία"
+  description="Ανακαλύψτε το IKIAN Dimitsana — premium boutique suites στην καρδιά της Δημητσάνας, Αρκαδία, Ελλάδα. Βιώστε αρκαδική κομψότητα, γοητεία ορεινού χωριού και διακριτή πολυτέλεια."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  </Fragment>
+
+  <!-- Hero Section -->
+  <section class="hero" aria-label="Καλώς ήρθατε στο IKIAN Dimitsana">
+    <div class="hero-bg">
+      <Image
+        src="/images/suites/suite-1/ikian-dimitsana-balcony-view-sunset.jpg"
+        alt="Ηλιοβασίλεμα από το μπαλκόνι του IKIAN Dimitsana με θέα στα βουνά της Αρκαδίας"
+        width={1920}
+        height={1080}
+        loading="eager"
+        fetchpriority="high"
+        class="hero-img"
+      />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content container">
+      <Image
+        src="/images/logos/logo-full.png"
+        alt=""
+        aria-hidden="true"
+        class="hero-logo"
+        width={400}
+        height={150}
+        loading="eager"
+      />
+      <h1 class="hero-title">IKIAN Dimitsana</h1>
+      <p class="hero-subtitle">Μια Ξεχωριστή Διαμονή στην Καρδιά της Αρκαδίας</p>
+      <div class="hero-cta">
+        <a href="tel:+306973373560" class="btn btn-primary">
+          Καλέστε Απευθείας &amp; Εξοικονομήστε 10%
+        </a>
+        <a href="#suites" class="btn btn-outline btn-light">
+          Εξερευνήστε τα Καταλύματά μας
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Introduction Section -->
+  <section class="section intro-section" aria-labelledby="intro-heading">
+    <div class="container text-center">
+      <h2 id="intro-heading">Αρκαδική Κομψότητα, Απόλυτη Άνεση</h2>
+      <div class="divider"></div>
+      <p class="intro-text">
+        Τοποθετημένο στο ιστορικό χωριό της Δημητσάνας, το ΙΚΙΑΝ προσφέρει τέσσερα ξεχωριστά καταλύματα
+        που συνδυάζουν τη γοητεία του ορεινού χωριού με μια διακριτική πολυτέλεια. Κάθε κατάλυμα είναι
+        προσεκτικά εξοπλισμένο με σύγχρονες ανέσεις — από μηχανές espresso και πλήρως εξοπλισμένες
+        κουζίνες έως υψηλής ταχύτητας Wi-Fi — εξασφαλίζοντας μια διαμονή τόσο άνετη όσο και αξέχαστη.
+      </p>
+      <p class="intro-text">
+        Μερικά μόνο βήματα από το κέντρο του χωριού, τα καφέ και τις ταβέρνες, τα καταλύματά μας
+        αποτελούν την ιδανική βάση για την εξερεύνηση της φυσικής ομορφιάς και της πλούσιας κληρονομιάς
+        της Αρκαδίας.
+      </p>
+    </div>
+  </section>
+
+  <!-- Suites Section -->
+  <section class="section suites-section" id="suites" aria-labelledby="suites-heading">
+    <div class="container">
+      <div class="text-center">
+        <h2 id="suites-heading">Τα Καταλύματά μας</h2>
+        <div class="divider"></div>
+        <p class="section-subtitle">
+          Τέσσερα μοναδικά καταφύγια, το καθένα με τον δικό του χαρακτήρα και τη γοητεία του
+        </p>
+      </div>
+
+      <div class="suites-list">
+        {suites.map((suite, i) => (
+          <SuiteCard {...suite} index={i} bookBtn="Κράτηση στο Airbnb" callBtn="Καλέστε &amp; Εξοικονομήστε 10%" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section contact-section" id="contact" aria-labelledby="contact-heading">
+    <div class="container">
+      <div class="text-center">
+        <h2 id="contact-heading">Επικοινωνήστε μαζί μας</h2>
+        <div class="divider"></div>
+        <p class="section-subtitle">
+          Κλείστε απευθείας μέσω τηλεφώνου και απολαύστε αποκλειστική έκπτωση 10%.
+        </p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-details">
+            <div class="contact-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <div>
+                <h3>Τηλέφωνο</h3>
+                <a href="tel:+306973373560">+30 697 337 3560</a>
+                <p class="text-small text-light">Καλέστε απευθείας &amp; εξοικονομήστε 10%</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <div>
+                <h3>Email</h3>
+                <a href="mailto:ikian.dimitsana@gmail.com">ikian.dimitsana@gmail.com</a>
+                <p class="text-small text-light">Συνήθως απαντάμε εντός 24 ωρών</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <div>
+                <h3>Τοποθεσία</h3>
+                <p>Δημητσάνα, Αρκαδία</p>
+                <p class="text-small text-light">Πελοπόννησος, Ελλάδα</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-map">
+          <div class="map-embed">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1600!2d22.039653!3d37.595521!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDM1JzQzLjkiTiAyMsKwMDInMjIuOCJF!5e0!3m2!1sel!2sgr!4v1"
+              width="100%"
+              height="400"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Τοποθεσία IKIAN Dimitsana στο Google Maps"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    position: relative;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(26, 26, 26, 0.3) 0%,
+      rgba(26, 26, 26, 0.5) 50%,
+      rgba(26, 26, 26, 0.7) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: var(--color-white);
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  .hero-logo {
+    height: 160px;
+    width: auto;
+    margin: 0 auto var(--space-lg);
+    filter: brightness(0) invert(1);
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--color-white);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-sm);
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--color-gold-light);
+    margin-bottom: var(--space-xl);
+    letter-spacing: 0.04em;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-light {
+    color: var(--color-white);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .btn-light:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--color-white);
+    color: var(--color-white);
+  }
+
+  /* Intro */
+  .intro-section {
+    background: var(--color-beige-light);
+  }
+
+  .intro-text {
+    max-width: 720px;
+    margin: 0 auto var(--space-md);
+    font-size: 1.05rem;
+    color: var(--color-text-light);
+    line-height: 1.9;
+  }
+
+  /* Suites */
+  .section-subtitle {
+    color: var(--color-text-light);
+    font-size: 1.05rem;
+    max-width: 600px;
+    margin: 0 auto var(--space-xl);
+  }
+
+  .suites-list {
+    margin-top: var(--space-lg);
+  }
+
+  /* Contact Section */
+  .contact-section {
+    background: var(--color-beige);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-3xl);
+    align-items: start;
+    margin-top: var(--space-xl);
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .contact-item {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: flex-start;
+  }
+
+  .contact-item svg {
+    flex-shrink: 0;
+    color: var(--color-gold);
+    margin-top: 4px;
+  }
+
+  .contact-item h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+    margin-bottom: var(--space-xs);
+    font-family: var(--font-body);
+    font-weight: 600;
+  }
+
+  .contact-item a {
+    font-size: 1.1rem;
+    font-weight: 500;
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+
+  .map-embed {
+    border-radius: 4px;
+    overflow: hidden;
+    min-height: 400px;
+  }
+
+  .map-embed iframe {
+    display: block;
+    width: 100%;
+    height: 400px;
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      min-height: 70vh;
+    }
+
+    .hero-logo {
+      height: 110px;
+    }
+
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+  }
+</style>

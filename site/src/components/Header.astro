@@ -1,0 +1,265 @@
+---
+// Header component — IKIAN Dimitsana
+import { Image } from 'astro:assets';
+const locale = Astro.currentLocale ?? 'en';
+const isEl = locale === 'el';
+const pathname = Astro.url.pathname;
+
+// Compute alternate language paths
+const cleanPath = isEl ? (pathname.replace(/^\/el/, '') || '/') : pathname;
+const enUrl = cleanPath;
+const elUrl = cleanPath === '/' ? '/el/' : `/el${cleanPath}`;
+
+// Locale-aware labels
+const nav = isEl
+  ? { home: 'Αρχική', suites: 'Καταλύματα', contact: 'Επικοινωνία', cta: 'Καλέστε & Εξοικονομήστε 10%' }
+  : { home: 'Home', suites: 'Suites', contact: 'Contact', cta: 'Call & Save 10%' };
+
+const homeUrl    = isEl ? '/el/' : '/';
+const suitesUrl  = isEl ? '/el/#suites' : '/#suites';
+const contactUrl = isEl ? '/el/#contact' : '/#contact';
+---
+
+<header class="site-header" id="site-header">
+  <div class="header-inner container">
+    <a href="/" class="logo-link" aria-label="IKIAN Dimitsana — Home">
+      <Image
+        src="/images/logos/logo-full.png"
+        alt="IKIAN Dimitsana logo"
+        class="logo"
+        width={220}
+        height={82}
+        loading="eager"
+      />
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <ul class="nav-list" id="nav-list" role="list">
+        <li><a href={homeUrl}>{nav.home}</a></li>
+        <li><a href={suitesUrl}>{nav.suites}</a></li>
+        <li><a href={contactUrl}>{nav.contact}</a></li>
+      </ul>
+      <div class="lang-switcher-mobile" aria-label="Language switcher">
+        <a href={enUrl} class:list={['lang-btn', { active: !isEl }]} hreflang="en" aria-label="English" lang="en">EN</a>
+        <span class="lang-sep" aria-hidden="true">|</span>
+        <a href={elUrl} class:list={['lang-btn', { active: isEl }]} hreflang="el" aria-label="Ελληνικά" lang="el">ΕΛ</a>
+      </div>
+    </nav>
+
+    <div class="header-cta">
+      <div class="lang-switcher" aria-label="Language switcher">
+        <a href={enUrl} class:list={['lang-btn', { active: !isEl }]} hreflang="en" aria-label="English" lang="en">EN</a>
+        <span class="lang-sep" aria-hidden="true">|</span>
+        <a href={elUrl} class:list={['lang-btn', { active: isEl }]} hreflang="el" aria-label="Ελληνικά" lang="el">ΕΛ</a>
+      </div>
+      <a href="tel:+306973373560" class="btn btn-primary btn-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        <span>{nav.cta}</span>
+      </a>
+    </div>
+
+    <button
+      class="mobile-toggle"
+      id="mobile-toggle"
+      aria-expanded="false"
+      aria-controls="nav-list"
+      aria-label="Toggle navigation menu"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(176, 141, 87, 0.1);
+    height: var(--header-height);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    gap: var(--space-lg);
+  }
+
+  .logo-link {
+    flex-shrink: 0;
+  }
+
+  .logo {
+    height: 70px;
+    width: auto;
+  }
+
+  .nav-list {
+    display: flex;
+    list-style: none;
+    gap: var(--space-xl);
+  }
+
+  .nav-list a {
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    padding: var(--space-xs) 0;
+    position: relative;
+  }
+
+  .nav-list a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-gold);
+    transition: width var(--transition-base);
+  }
+
+  .nav-list a:hover::after {
+    width: 100%;
+  }
+
+  .btn-cta span {
+    display: inline;
+  }
+
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-right: var(--space-sm);
+  }
+
+  .lang-btn {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+    padding: 2px 4px;
+    transition: color var(--transition-fast);
+    text-decoration: none;
+  }
+
+  .lang-btn:hover,
+  .lang-btn.active {
+    color: var(--color-gold);
+  }
+
+  .lang-btn.active {
+    pointer-events: none;
+  }
+
+  .lang-sep {
+    font-size: 0.7rem;
+    color: var(--color-stone);
+  }
+
+  .lang-switcher-mobile {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-sm);
+  }
+
+  .hamburger-line {
+    width: 24px;
+    height: 2px;
+    background: var(--color-text);
+    transition: all var(--transition-base);
+  }
+
+  @media (max-width: 768px) {
+    .main-nav {
+      position: fixed;
+      top: var(--header-height);
+      left: 0;
+      right: 0;
+      background: var(--color-white);
+      padding: var(--space-lg);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-base);
+      border-bottom: 1px solid var(--color-stone);
+    }
+
+    .main-nav.is-open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-list {
+      flex-direction: column;
+      gap: var(--space-lg);
+      text-align: center;
+    }
+
+    .header-cta {
+      display: none;
+    }
+
+    .lang-switcher {
+      margin-right: 0;
+      justify-content: center;
+      margin-top: var(--space-md);
+    }
+
+    .lang-switcher-mobile {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: center;
+      margin-top: var(--space-lg);
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--color-stone);
+    }
+
+    .mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo {
+      height: 55px;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('mobile-toggle');
+  const nav = document.querySelector('.main-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('is-open');
+    });
+  }
+</script>

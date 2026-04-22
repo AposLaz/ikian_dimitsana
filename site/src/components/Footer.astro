@@ -1,0 +1,211 @@
+---
+// Footer component — IKIAN Dimitsana
+import { Image } from 'astro:assets';
+const currentYear = new Date().getFullYear();
+
+const locale = Astro.currentLocale ?? 'en';
+const isEl = locale === 'el';
+
+const f = isEl
+  ? {
+      tagline: 'Μια Ξεχωριστή Διαμονή',
+      location: 'Δημητσάνα, Αρκαδία, Ελλάδα',
+      explore: 'Εξερεύνηση',
+      home: 'Αρχική',
+      suites: 'Τα Καταλύματά μας',
+      contact: 'Επικοινωνία',
+      legal: 'Νομικά',
+      terms: 'Όροι & Προϋποθέσεις',
+      privacy: 'Πολιτική Απορρήτου',
+      getInTouch: 'Επικοινωνήστε',
+      privacyNote: 'Επικοινωνώντας μαζί μας, τα στοιχεία σας θα επεξεργαστούν για να απαντήσουμε στο αίτημά σας. Δείτε την',
+      privacyPolicy: 'Πολιτική Απορρήτου',
+      rights: 'Με Επιφύλαξη Παντός Δικαιώματος',
+      ama: 'Αδειοδοτημένο κατάλυμα — Αριθμοί ΑΜΑ αναγράφονται ανά κατάλυμα.',
+      homeUrl: '/el/',
+      suitesUrl: '/el/#suites',
+      contactUrl: '/el/#contact',
+      termsUrl: '/el/terms/',
+      privacyUrl: '/el/privacy/',
+    }
+  : {
+      tagline: 'A Distinctive Stay',
+      location: 'Dimitsana, Arcadia, Greece',
+      explore: 'Explore',
+      home: 'Home',
+      suites: 'Our Suites',
+      contact: 'Contact',
+      legal: 'Legal',
+      terms: 'Terms & Conditions',
+      privacy: 'Privacy Policy',
+      getInTouch: 'Get in Touch',
+      privacyNote: 'By contacting us, your message data will be processed to respond to your enquiry. See our',
+      privacyPolicy: 'Privacy Policy',
+      rights: 'All Rights Reserved',
+      ama: 'Licensed accommodation — AMA registration numbers displayed per suite.',
+      homeUrl: '/',
+      suitesUrl: '/#suites',
+      contactUrl: '/#contact',
+      termsUrl: '/terms/',
+      privacyUrl: '/privacy/',
+    };
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <Image
+          src="/images/logos/logo-full.png"
+          alt="IKIAN Dimitsana"
+          class="footer-logo"
+          width={270}
+          height={100}
+          loading="lazy"
+        />
+        <p class="footer-tagline">{f.tagline}</p>
+        <p class="footer-location">{f.location}</p>
+      </div>
+
+      <div class="footer-links">
+        <h3>{f.explore}</h3>
+        <ul role="list">
+          <li><a href={f.homeUrl}>{f.home}</a></li>
+          <li><a href={f.suitesUrl}>{f.suites}</a></li>
+          <li><a href={f.contactUrl}>{f.contact}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h3>{f.legal}</h3>
+        <ul role="list">
+          <li><a href={f.termsUrl}>{f.terms}</a></li>
+          <li><a href={f.privacyUrl}>{f.privacy}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h3>{f.getInTouch}</h3>
+        <ul role="list">
+          <li>
+            <a href="tel:+306973373560">+30 697 337 3560</a>
+          </li>
+          <li>
+            <a href="mailto:ikian.dimitsana@gmail.com">ikian.dimitsana@gmail.com</a>
+          </li>
+        </ul>
+        <p class="privacy-note">
+          {f.privacyNote} <a href={f.privacyUrl}>{f.privacyPolicy}</a>.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {currentYear} IKIAN Dimitsana. {f.rights}.</p>
+      <p class="footer-ama">{f.ama}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-black);
+    color: rgba(255, 255, 255, 0.7);
+    padding: var(--space-3xl) 0 var(--space-lg);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+    gap: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-logo {
+    height: 100px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    margin-bottom: var(--space-md);
+  }
+
+  .footer-tagline {
+    font-family: var(--font-heading);
+    font-style: italic;
+    color: var(--color-gold-light);
+    font-size: 0.95rem;
+    margin-bottom: var(--space-xs);
+  }
+
+  .footer-location {
+    font-size: 0.85rem;
+  }
+
+  .footer-links h3,
+  .footer-contact h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-white);
+    margin-bottom: var(--space-md);
+  }
+
+  .footer-links ul,
+  .footer-contact ul {
+    list-style: none;
+  }
+
+  .footer-links li,
+  .footer-contact li {
+    margin-bottom: var(--space-sm);
+  }
+
+  .footer-links a,
+  .footer-contact a {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.9rem;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-links a:hover,
+  .footer-contact a:hover {
+    color: var(--color-gold-light);
+  }
+
+  .privacy-note {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: var(--space-md);
+    line-height: 1.5;
+  }
+
+  .privacy-note a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: underline;
+  }
+
+  .footer-bottom {
+    padding-top: var(--space-lg);
+    text-align: center;
+    font-size: 0.8rem;
+  }
+
+  .footer-ama {
+    margin-top: var(--space-xs);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl) var(--space-lg);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
