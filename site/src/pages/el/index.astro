@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SuiteCard from '../../components/SuiteCard.astro';
 import { suiteData } from '../../i18n/translations';
 import { Image } from 'astro:assets';
+import { url } from '../../utils/url';
 
 type ImgEntry = { src: string; alt: string };
 
@@ -15,7 +16,7 @@ function buildImages(folder: string, files: string[], featured: string, prefix: 
       .replace(/[-_]+/g, ' ')
       .trim();
     return {
-      src: `/images/suites/${folder}/${f}`,
+      src: url(`/images/suites/${folder}/${f}`),
       alt: `${prefix} — ${slug}`,
     };
   });
@@ -130,12 +131,13 @@ const suites = [
   },
 ];
 
+const siteOrigin = 'https://ikian-dimitsana.gr';
 const schemaData = {
   "@context": "https://schema.org",
   "@type": "LodgingBusiness",
   "name": "IKIAN Dimitsana",
   "description": "Boutique suites in the heart of Dimitsana, Arcadia, Greece. Premium accommodation with Arcadian elegance and mountain village charm.",
-  "url": "https://ikian-dimitsana.gr",
+  "url": siteOrigin,
   "telephone": "+306973373560",
   "email": "ikian.dimitsana@gmail.com",
   "address": {
@@ -149,7 +151,7 @@ const schemaData = {
     "latitude": 37.595581,
     "longitude": 22.039512
   },
-  "image": "https://ikian-dimitsana.gr/images/suites/suite-1/ikian-dimitsana-signature-suite-1.jpg",
+  "image": `${siteOrigin}/images/suites/suite-1/ikian-dimitsana-signature-suite-1.jpg`,
   "priceRange": "$$",
   "amenityFeature": [
     { "@type": "LocationFeatureSpecification", "name": "Free Wi-Fi", "value": true },
@@ -172,7 +174,7 @@ const schemaData = {
   <section class="hero" aria-label="Καλώς ήρθατε στο IKIAN Dimitsana">
     <div class="hero-bg">
       <Image
-        src="/images/suites/suite-1/ikian-dimitsana-balcony-view-sunset.jpg"
+        src={url('/images/suites/suite-1/ikian-dimitsana-balcony-view-sunset.jpg')}
         alt="Ηλιοβασίλεμα από το μπαλκόνι του IKIAN Dimitsana με θέα στα βουνά της Αρκαδίας"
         width={1920}
         height={1080}
@@ -184,7 +186,7 @@ const schemaData = {
     </div>
     <div class="hero-content container">
       <Image
-        src="/images/logos/logo-full.png"
+        src={url('/images/logos/logo-full.png')}
         alt=""
         aria-hidden="true"
         class="hero-logo"

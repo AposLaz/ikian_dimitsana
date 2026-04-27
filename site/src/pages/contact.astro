@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../utils/url';
 ---
 
 <BaseLayout
@@ -62,7 +63,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <strong>Privacy notice:</strong> When you contact us by phone or email,
               we process your contact details solely to respond to your enquiry. Your data
               is not shared with third parties and is retained only as long as necessary.
-              For more information, see our <a href="/privacy/">Privacy Policy</a>.
+              For more information, see our <a href={url('/privacy/')}>Privacy Policy</a>.
             </p>
           </div>
         </div>

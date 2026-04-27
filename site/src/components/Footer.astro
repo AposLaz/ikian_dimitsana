@@ -1,6 +1,7 @@
 ---
 // Footer component — IKIAN Dimitsana
 import { Image } from 'astro:assets';
+import { url } from '../utils/url';
 const currentYear = new Date().getFullYear();
 
 const locale = Astro.currentLocale ?? 'en';
@@ -22,11 +23,11 @@ const f = isEl
       privacyPolicy: 'Πολιτική Απορρήτου',
       rights: 'Με Επιφύλαξη Παντός Δικαιώματος',
       ama: 'Αδειοδοτημένο κατάλυμα — Αριθμοί ΑΜΑ αναγράφονται ανά κατάλυμα.',
-      homeUrl: '/el/',
-      suitesUrl: '/el/#suites',
-      contactUrl: '/el/#contact',
-      termsUrl: '/el/terms/',
-      privacyUrl: '/el/privacy/',
+      homeUrl: url('/el/'),
+      suitesUrl: url('/el/#suites'),
+      contactUrl: url('/el/#contact'),
+      termsUrl: url('/el/terms/'),
+      privacyUrl: url('/el/privacy/'),
     }
   : {
       tagline: 'A Distinctive Stay',
@@ -43,11 +44,11 @@ const f = isEl
       privacyPolicy: 'Privacy Policy',
       rights: 'All Rights Reserved',
       ama: 'Licensed accommodation — AMA registration numbers displayed per suite.',
-      homeUrl: '/',
-      suitesUrl: '/#suites',
-      contactUrl: '/#contact',
-      termsUrl: '/terms/',
-      privacyUrl: '/privacy/',
+      homeUrl: url('/'),
+      suitesUrl: url('/#suites'),
+      contactUrl: url('/#contact'),
+      termsUrl: url('/terms/'),
+      privacyUrl: url('/privacy/'),
     };
 ---
 
@@ -56,7 +57,7 @@ const f = isEl
     <div class="footer-grid">
       <div class="footer-brand">
         <Image
-          src="/images/logos/logo-full.png"
+          src={url('/images/logos/logo-full.png')}
           alt="IKIAN Dimitsana"
           class="footer-logo"
           width={270}

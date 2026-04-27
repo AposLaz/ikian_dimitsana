@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../utils/url';
 ---
 
 <BaseLayout title="Page Not Found — IKIAN Dimitsana" description="The page you are looking for could not be found.">
@@ -7,7 +8,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="container text-center">
       <h1>404</h1>
       <p class="error-message">The page you are looking for could not be found.</p>
-      <a href="/" class="btn btn-primary">Return Home</a>
+      <a href={url('/')} class="btn btn-primary">Return Home</a>
     </div>
   </section>
 </BaseLayout>

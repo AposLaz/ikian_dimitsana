@@ -36,9 +36,9 @@ jobs:
 
             - name: Build site
               run: npm run build
-
-            - name: Add CNAME for custom domain
-              run: echo "ikian-dimitsana.gr" > dist/CNAME
+              env:
+                  SITE: https://aposlaz.github.io
+                  BASE: /ikian_dimitsana
 
             - name: Upload Pages artifact
               uses: actions/upload-pages-artifact@v3
