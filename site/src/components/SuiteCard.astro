@@ -1,6 +1,4 @@
 ---
-import { Image } from 'astro:assets';
-
 interface Props {
   name: string;
   description: string;
@@ -15,7 +13,7 @@ interface Props {
 const { name, description, ama, bookingLink, images, index, bookBtn = 'Book on Airbnb', callBtn = 'Call & Save 10%' } = Astro.props;
 const heroImage = images[0];
 const galleryImages = images.slice(1, 5);
-const allImages = [heroImage, ...galleryImages];
+const allImages = images;
 const lightboxId = `lightbox-${index}`;
 const isReversed = index % 2 !== 0;
 ---
@@ -24,20 +22,35 @@ const isReversed = index % 2 !== 0;
   <div class="suite-hero">
     <button
       type="button"
-      class="img-btn"
+      class="img-btn suite-hero-btn"
       data-lightbox={lightboxId}
       data-index="0"
-      aria-label={`View ${heroImage.alt} full size`}
+      aria-label={`View ${name} gallery`}
     >
-      <Image
-        src={heroImage.src}
-        alt={heroImage.alt}
-        width={800}
-        height={500}
-        loading="lazy"
-        decoding="async"
-        class="suite-hero-img"
-      />
+      <span class="suite-hero-stack" data-hero-stack>
+        <img
+          src={heroImage.src}
+          alt={heroImage.alt}
+          width="800"
+          height="500"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          class="suite-hero-img is-active"
+          data-hero-layer="a"
+        />
+        <img
+          src=""
+          alt=""
+          width="800"
+          height="500"
+          loading="lazy"
+          decoding="async"
+          aria-hidden="true"
+          class="suite-hero-img"
+          data-hero-layer="b"
+        />
+      </span>
     </button>
   </div>
 
@@ -57,11 +70,11 @@ const isReversed = index % 2 !== 0;
             data-index={String(i + 1)}
             aria-label={`View ${img.alt} full size`}
           >
-            <Image
+            <img
               src={img.src}
               alt={img.alt}
-              width={200}
-              height={150}
+              width="200"
+              height="150"
               loading="lazy"
               decoding="async"
               class="gallery-thumb"
@@ -145,14 +158,29 @@ const isReversed = index % 2 !== 0;
     cursor: pointer;
   }
 
+  .suite-hero-stack {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   .suite-hero-img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform var(--transition-base);
+    opacity: 0;
+    transition: opacity 700ms ease, transform var(--transition-base);
+    will-change: opacity;
   }
 
-  .suite-card:hover .suite-hero-img {
+  .suite-hero-img.is-active {
+    opacity: 1;
+  }
+
+  .suite-card:hover .suite-hero-img.is-active {
     transform: scale(1.03);
   }
 
@@ -320,11 +348,113 @@ const isReversed = index % 2 !== 0;
 </style>
 
 <script>
-  // Lightbox functionality — minimal, no dependencies
+  // Lightbox functionality + hero auto-rotation (8s interval, paused while lightbox is open)
   document.addEventListener('DOMContentLoaded', () => {
+    const ROTATE_MS = 5000;
+
+    // Track active rotation timers per card so we can pause/resume them.
+    const rotators = new Map<HTMLElement, { stop: () => void; start: () => void }>();
+
+    // Set up auto-rotation for every suite hero (crossfades between two layered <img> elements).
+    const stacks = document.querySelectorAll<HTMLElement>('[data-hero-stack]');
+    stacks.forEach((stack) => {
+      const card = stack.closest('.suite-card') as HTMLElement | null;
+      if (!card) return;
+      const lightbox = card.querySelector('.lightbox');
+      if (!lightbox) return;
+      const dataEl = lightbox.querySelector('.lightbox-data');
+      if (!dataEl) return;
+      let images: { src: string; alt: string }[] = [];
+      try {
+        images = JSON.parse(dataEl.textContent || '[]');
+      } catch {
+        images = [];
+      }
+      if (images.length < 2) return;
+
+      const layerA = stack.querySelector<HTMLImageElement>('[data-hero-layer="a"]')!;
+      const layerB = stack.querySelector<HTMLImageElement>('[data-hero-layer="b"]')!;
+      let activeIsA = true;
+      let index = 0;
+      let timer: number | null = null;
+      let switching = false;
+
+      // Preload all images into the browser cache up-front so swaps are instant.
+      const cache: HTMLImageElement[] = images.map((img) => {
+        const pre = new window.Image();
+        pre.decoding = 'async';
+        pre.src = img.src;
+        return pre;
+      });
+
+      async function swapTo(nextIndex: number) {
+        if (switching) return;
+        switching = true;
+        const next = images[nextIndex];
+        const incoming = activeIsA ? layerB : layerA;
+        const outgoing = activeIsA ? layerA : layerB;
+
+        // Ensure the incoming image is fully decoded BEFORE we fade it in,
+        // so there is no blank flash and no perceptible "reload".
+        try {
+          const preloaded = cache[nextIndex];
+          if (preloaded && preloaded.complete && typeof preloaded.decode === 'function') {
+            await preloaded.decode().catch(() => {});
+          }
+          incoming.src = next.src;
+          incoming.alt = next.alt;
+          if (typeof incoming.decode === 'function') {
+            await incoming.decode().catch(() => {});
+          } else if (!incoming.complete) {
+            await new Promise<void>((resolve) => {
+              incoming.onload = () => resolve();
+              incoming.onerror = () => resolve();
+            });
+          }
+        } catch {
+          // Ignore — fall through and swap regardless.
+        }
+
+        incoming.classList.add('is-active');
+        outgoing.classList.remove('is-active');
+        activeIsA = !activeIsA;
+        index = nextIndex;
+        switching = false;
+      }
+
+      const tick = () => {
+        const next = (index + 1) % images.length;
+        void swapTo(next);
+      };
+      const start = () => {
+        if (timer !== null) return;
+        timer = window.setInterval(tick, ROTATE_MS);
+      };
+      const stop = () => {
+        if (timer !== null) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+      };
+
+      rotators.set(card, { start, stop });
+      // Respect users who prefer reduced motion — keep the first image static.
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced) start();
+    });
+
+    function pauseAll() {
+      rotators.forEach((r) => r.stop());
+    }
+    function resumeAll() {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return;
+      rotators.forEach((r) => r.start());
+    }
+
     const triggers = document.querySelectorAll<HTMLButtonElement>('.img-btn[data-lightbox]');
-    
-    triggers.forEach(btn => {
+
+    triggers.forEach((btn) => {
       btn.addEventListener('click', () => {
         const lightboxId = btn.dataset.lightbox!;
         const index = parseInt(btn.dataset.index || '0', 10);
@@ -346,7 +476,6 @@ const isReversed = index % 2 !== 0;
       const prevBtn = lightbox.querySelector<HTMLButtonElement>('.lightbox-prev')!;
       const nextBtn = lightbox.querySelector<HTMLButtonElement>('.lightbox-next')!;
       const closeBtn = lightbox.querySelector<HTMLButtonElement>('.lightbox-close')!;
-      const backdrop = lightbox.querySelector<HTMLElement>('.lightbox-backdrop')!;
 
       function show(i: number) {
         current = ((i % images.length) + images.length) % images.length;
@@ -359,6 +488,8 @@ const isReversed = index % 2 !== 0;
         lightbox.hidden = true;
         document.body.style.overflow = '';
         document.removeEventListener('keydown', onKey);
+        // Resume hero auto-rotation once the user closes the gallery.
+        resumeAll();
       }
 
       function onKey(e: KeyboardEvent) {
@@ -366,6 +497,9 @@ const isReversed = index % 2 !== 0;
         if (e.key === 'ArrowLeft') show(current - 1);
         if (e.key === 'ArrowRight') show(current + 1);
       }
+
+      // Pause hero auto-rotation while the user is viewing the gallery.
+      pauseAll();
 
       show(current);
       lightbox.hidden = false;

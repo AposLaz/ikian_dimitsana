@@ -4,58 +4,129 @@ import SuiteCard from '../../components/SuiteCard.astro';
 import { suiteData } from '../../i18n/translations';
 import { Image } from 'astro:assets';
 
+type ImgEntry = { src: string; alt: string };
+
+function buildImages(folder: string, files: string[], featured: string, prefix: string): ImgEntry[] {
+  const ordered = [featured, ...files.filter((f) => f !== featured)];
+  return ordered.map((f) => {
+    const slug = f
+      .replace(/^ikian-dimitsana-/, '')
+      .replace(/\.jpe?g$/i, '')
+      .replace(/[-_]+/g, ' ')
+      .trim();
+    return {
+      src: `/images/suites/${folder}/${f}`,
+      alt: `${prefix} — ${slug}`,
+    };
+  });
+}
+
+const suite1Files = [
+  'ikian-dimitsana-signature-suite-1.jpg',
+  'ikian-dimitsana-signature-suite-2.jpg',
+  'ikian-dimitsana-signature-suite-4.jpg',
+  'ikian-dimitsana-balcony-central-view.jpg',
+  'ikian-dimitsana-balcony-central-view-2.jpg',
+  'ikian-dimitsana-balcony-view.jpg',
+  'ikian-dimitsana-balcony-view-sunset.jpg',
+  'ikian-dimitsana-spacious-balcony.jpg',
+  'ikian-dimitsana-queen-size-bed-1.jpg',
+  'ikian-dimitsana-queen-size-bed-2.jpg',
+  'ikian-dimitsana-spacious-wardrope.jpg',
+  'ikian-dimitsana-elegant-bathroom-1.jpg',
+  'ikian-dimitsana-elegant-bathroom-2.jpg',
+  'ikian-dimitsana-elegant-bathroom-3.jpg',
+  'ikian-dimitsana-fully-equipped-kitchen-1.jpg',
+  'ikian-dimitsana-fully-equipped-kitchen-2.jpg',
+  'ikian-dimitsana-fully-equipped-kitchen-3.jpg',
+  'ikian-dimitsana-art-photography-1.jpg',
+  'ikian-dimitsana-art-photography-2.jpg',
+  'ikian-dimitsana-art-photography-3.jpg',
+  'ikian-dimitsana-welcome_entrance.jpg',
+  'ikian-dimitsana-main-entrance.jpg',
+  'ikian-dimitsana-charming-alley-entrance.jpg',
+  'ikian-dimitsana-exterior-view-2.jpg',
+];
+
+const suite2Files = [
+  'ikian-dimitsana-luxury-serenity-suite-1.jpg',
+  'ikian-dimitsana-kuxury-serenity-suite-2.jpg',
+  'ikian-dimitsana-queen-size-bed.jpg',
+  'ikian-dimitsana-smart-4k-tv.jpg',
+  'ikian-dimitsana-luxury-bathroom-1.jpg',
+  'ikian-dimitsana-luxury-bathroom-2.jpg',
+  'ikian-dimitsana-luxury-bathroom-3.jpg',
+  'ikian-dimitsana-spacious-shower.jpg',
+  'ikian-dimitsana-makeup-towel.jpg',
+  'ikian-dimitsana-fully-equipped-kitchen.jpg',
+  'ikian-dimitsana-welcome_entrance.jpg',
+  'ikian-dimitsana-entrance.jpg',
+  'ikian-dimitsana-main-entrance.jpg',
+  'ikian-dimitsana-charming-alley-entrance.jpg',
+  'ikian-dimitsana-exterior-view-2.jpg',
+];
+
+const suite3Files = [
+  'ikian-dimitsana-charming-arcadian-suite-1.jpg',
+  'ikian-dimitsana-charming-arcadian-suite-2.jpg',
+  'ikian-dimitsana-queen_size_bed-1.jpg',
+  'ikian-dimitsana-spacious-bathroom-1.jpg',
+  'ikian-dimitsana-spacious-bathroom-2.jpg',
+  'ikian-dimitsana-spacious-bathroom-3.jpg',
+  'ikian-dimitsana-spacious-bathroom-shower.jpg',
+  'ikian-dimitsana-fully-equipped-kitchen.jpg',
+  'ikian-dimitsana-art-photography.jpg',
+  'ikian-dimitsana-welcome_entrance.jpg',
+  'ikian-dimitsana-main-entrance.jpg',
+  'ikian-dimitsana-charming-alley-entrance.jpg',
+  'ikian-dimitsana-self-checkin-access.jpg',
+  'ikian-dimitsana-exterior-view-2.jpg',
+];
+
+const suite4Files = [
+  'ikian-dimitsana-center-escape-1.jpg',
+  'ikian-dimitsana-center-escape-2.jpg',
+  'ikian-dimitsana-center-escape-3.jpg',
+  'ikian-dimitsana-queen-size-bed.jpg',
+  'ikian-dimitsana-spacious-bathroom-1.jpg',
+  'ikian-dimitsana-spacious-bathroom-2.jpg',
+  'ikian-dimitsana-spacious-bathroom-3.jpg',
+  'ikian-dimitsana-fully-equipped-kitchen.jpg',
+  'ikian-dimitsana-art-photo.jpg',
+  'ikian-dimitsana-entrance-door.jpg',
+  'ikian-dimitsana-self-checkin-access.jpg',
+  'ikian-dimitsana-exterior-view-1.jpg',
+  'ikian-dimitsana-exterior-view-2.jpg',
+];
+
 const suites = [
   {
     name: suiteData.el[0].name,
     description: suiteData.el[0].description,
     ama: '00003342582',
     bookingLink: 'https://www.airbnb.gr/rooms/1491162600380899878',
-    images: [
-      { src: '/images/suites/suite-1/ikian-dimitsana-signature-suite-1.jpg', alt: 'Χώρος διαβίωσης Signature Suite με κομψή διακόσμηση' },
-      { src: '/images/suites/suite-1/ikian-dimitsana-balcony-central-view.jpg', alt: 'Κεντρική θέα μπαλκονιού στη Δημητσάνα' },
-      { src: '/images/suites/suite-1/ikian-dimitsana-queen-size-bed-1.jpg', alt: 'Διπλό κρεβάτι στο Signature Suite' },
-      { src: '/images/suites/suite-1/ikian-dimitsana-elegant-bathroom-1.jpg', alt: 'Κομψό μπάνιο με σύγχρονα είδη υγιεινής' },
-      { src: '/images/suites/suite-1/ikian-dimitsana-fully-equipped-kitchen-1.jpg', alt: 'Πλήρως εξοπλισμένη κουζίνα' },
-    ],
+    images: buildImages('suite-1', suite1Files, 'ikian-dimitsana-signature-suite-1.jpg', suiteData.el[0].name),
   },
   {
     name: suiteData.el[1].name,
     description: suiteData.el[1].description,
     ama: '00003342600',
     bookingLink: 'https://www.airbnb.com/h/ikian-dimitsana-2',
-    images: [
-      { src: '/images/suites/suite-2/ikian-dimitsana-luxury-serenity-suite-1.jpg', alt: 'Εσωτερικό Luxury Serenity Suite' },
-      { src: '/images/suites/suite-2/ikian-dimitsana-queen-size-bed.jpg', alt: 'Διπλό κρεβάτι με πολυτελή κλινοσκεπάσματα' },
-      { src: '/images/suites/suite-2/ikian-dimitsana-luxury-bathroom-1.jpg', alt: 'Πολυτελές μπάνιο στο Serenity Suite' },
-      { src: '/images/suites/suite-2/ikian-dimitsana-fully-equipped-kitchen.jpg', alt: 'Κουζίνα στο Serenity Suite' },
-      { src: '/images/suites/suite-2/ikian-dimitsana-entrance.jpg', alt: 'Είσοδος καταλύματος' },
-    ],
+    images: buildImages('suite-2', suite2Files, 'ikian-dimitsana-luxury-serenity-suite-1.jpg', suiteData.el[1].name),
   },
   {
     name: suiteData.el[2].name,
     description: suiteData.el[2].description,
     ama: '00003342577',
     bookingLink: 'https://www.airbnb.com/h/ikian-dimitsana-3',
-    images: [
-      { src: '/images/suites/suite-3/ikian-dimitsana-charming-arcadian-suite-1.jpg', alt: 'Χώρος διαβίωσης Αρκαδικού Suite' },
-      { src: '/images/suites/suite-3/ikian-dimitsana-queen_size_bed-1.jpg', alt: 'Διπλό κρεβάτι με τοίχο από πέτρα' },
-      { src: '/images/suites/suite-3/ikian-dimitsana-spacious-bathroom-1.jpg', alt: 'Ευρύχωρο και σύγχρονο μπάνιο' },
-      { src: '/images/suites/suite-3/ikian-dimitsana-fully-equipped-kitchen.jpg', alt: 'Κουζίνα με σκεύη και βασικά είδη' },
-      { src: '/images/suites/suite-3/ikian-dimitsana-art-photography.jpg', alt: 'Καλλιτεχνική φωτογραφία στο suite' },
-    ],
+    images: buildImages('suite-3', suite3Files, 'ikian-dimitsana-charming-arcadian-suite-1.jpg', suiteData.el[2].name),
   },
   {
     name: suiteData.el[3].name,
     description: suiteData.el[3].description,
     ama: '00003342615',
     bookingLink: 'https://www.airbnb.com/h/ikian-dimitsana-4',
-    images: [
-      { src: '/images/suites/suite-4/ikian-dimitsana-center-escape-1.jpg', alt: 'Εσωτερικό Κεντρικού Καταφυγίου Δημητσάνας' },
-      { src: '/images/suites/suite-4/ikian-dimitsana-queen-size-bed.jpg', alt: 'Διπλό κρεβάτι στο Κεντρικό Καταφύγιο' },
-      { src: '/images/suites/suite-4/ikian-dimitsana-spacious-bathroom-1.jpg', alt: 'Σύγχρονο μπάνιο με walk-in ντουζιέρα' },
-      { src: '/images/suites/suite-4/ikian-dimitsana-fully-equipped-kitchen.jpg', alt: 'Πλήρως εξοπλισμένη κουζίνα' },
-      { src: '/images/suites/suite-4/ikian-dimitsana-exterior-view-1.jpg', alt: 'Εξωτερική άποψη του καταλύματος' },
-    ],
+    images: buildImages('suite-4', suite4Files, 'ikian-dimitsana-center-escape-1.jpg', suiteData.el[3].name),
   },
 ];
 
